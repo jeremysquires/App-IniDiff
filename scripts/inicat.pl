@@ -1,35 +1,12 @@
 #!perl
 #
-#    inicat - cat dos/windows .ini files to standard output (regutils package)
-#    Copyright (C) 1998 Memorial University of Newfoundland
-#
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program; if not, write to the Free Software
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-#
-
-#
-# Program to test the ini reading stuff...
-#
-# (pod at end)
+#    inicat - cat .ini files to standard output
 #
 
 use strict;
 use Getopt::Std;
 use IO::File;
 use Cwd;
-
-# BEGIN { push(@INC, 'D:\Code\inidiffutils-code\tries\perl-App-IniDiff\lib'); }
 use App::IniDiff::IniFile;
 
 my $prog = $0;
@@ -45,9 +22,9 @@ my $Usage = "Usage: $prog [-V] [-o outfile] [file ...]
 
 # add support for --help and --version
 $Getopt::Std::STANDARD_HELP_VERSION = "true";
-my $VERSION = '0.15';
+my $VERSION = '0.16';
 sub VERSION_MESSAGE {
-    print "$prog: version 0.15\n";
+    print "$prog: version $VERSION\n";
 }
 sub HELP_MESSAGE {
     print STDERR $Usage;
@@ -60,7 +37,7 @@ if (!&getopts('o:V', \%opt)) {
 }
 my $outFile = defined $opt{'o'} ? $opt{'o'} : '-';
 if (defined $opt{'V'}) {
-    print "$prog: version 0.15\n";
+    print "$prog: version $VERSION\n";
     exit 0;
 }
 
@@ -108,33 +85,64 @@ __END__
 
 =head1 NAME
 
-inicat - cat dos/windows C<.ini> files to standard output
+inicat - cat C<.ini> files to standard output
 
 =head1 SYNOPSYS
 
-B<inicat> [B<-V>] [file ...]
+B<inicat> [B<-V>] [B<-o> outfile] [file ...]
 
 =head1 DESCRIPTION
 
-B<inicat> reads, and then writes to standard output, dos or windows
-C<.ini> files.
-If no files are specified, standard input is read.
+B<inicat> reads and then writes C<.ini> files. If no output file is
+specified using the B<-o> option, then it will write to stdout.
+
 If multiple files are specified, each file is read and processed
-separately - they keys in the files are not merged together.
+separately - the keys in the files are not merged together.
 
-Any comments in the C<.ini> files will be discarded (as will extraneous
-white space).
+Comments in the C<.ini> files will NOT be discarded.
+Extraneous white space, however, will be discarded.
 
-The B<-V> option prints the version number - the program then exits
-immediately.
+=head1 OPTIONS
 
-This program is exists to allow simple testing of the C<IniFile>
-perl module.
+=over 4
+
+=item B<-o> I<file>
+
+Allows an output file to be specified.
+
+=item B<-V>
+
+Prints the version number - the program then exits immediately.
+
+=back
 
 =head1 SEE ALSO
 
-L<inidiff>, L<iniedit>.
+L<inidiff>, L<iniedit>, L<inifilter>.
 
 =head1 AUTHOR
 
-Michael Rendell, Memorial University of Newfoundland (michael@cs.mun.ca).
+=item Michael Rendell, Memorial University of Newfoundland
+ 
+=head1 MAINTAINERS
+ 
+=item Jeremy Squires C<< <j.squires at computer.org> >>
+
+=head1 ACKNOWLEDGEMENTS
+
+Michael Rendell, Memorial University of Newfoundland
+produced the first version of the Regutils package from which
+this package was derived. It is still available from:
+
+    L<https://sourceforge.net/projects/regutils/>
+
+=head1 LICENSE AND COPYRIGHT
+
+This software is Copyright (c) 1998 Memorial University of Newfoundland
+
+This is free software, licensed under:
+
+The GNU General Public License, Version 3, July 2007
+
+See F<LICENSE>
+

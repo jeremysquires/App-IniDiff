@@ -940,7 +940,7 @@ sub addKey
 
 }    # End package App::IniDiff::IniFile::Filter
 
-=head1 AUTHORS
+=head1 AUTHOR
 
 =item Michael Rendell, Memorial University of Newfoundland
  

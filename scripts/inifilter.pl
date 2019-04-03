@@ -1,54 +1,30 @@
 #!perl
 #
-#    inifilter - make changes to a dos .ini file patch (regutils package)
-#    Copyright (C) 1998 Memorial University of Newfoundland
-#
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program; if not, write to the Free Software
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-#
-
-#
-# Script to make modifications to a dos/window ini file - the modified
-# file is sent to standard output.  Modifications are read from one or more
-# `filter' files.
-#
-# (pod at end)
+#    inifilter - make changes to an .ini file patch
 #
 
 use strict;
 use Getopt::Std;
 
-# BEGIN { push(@INC, 'lib'); }
 use App::IniDiff::IniFile;
 
 my $prog = $0;
 $prog =~ s:.*\/::;
 
 my $Usage = "Usage: $prog [-f file] [-V] [-e] [-p] filter-file [filter-file ...]
-	-f file	Read from file (defaults to stdin)
-	-V	Print version number and exit.
-	-e  Exports the filter results to a text format (debug purposes)
-	-p  Preserves the order of Ordered Field names (such as mod_1, mod_2, etc.)
+    -f file	Read from file (defaults to stdin)
+    -V	Print version number and exit.
+    -e  Exports the filter results to a text format (debug purposes)
+    -p  Preserves the order of Ordered Field names (such as mod_1, mod_2, etc.)
     Reads patterns from filter-file(s), then filters keys matching those
     patterns from the specified ini file or inidiff output.
 ";
 
 # add support for --help and --version
 $Getopt::Std::STANDARD_HELP_VERSION = "true";
-my $VERSION = '0.15';
+my $VERSION = '0.16';
 sub VERSION_MESSAGE {
-    print "$prog: version 0.15\n";
+    print "$prog: version $VERSION\n";
 }
 sub HELP_MESSAGE {
     print STDERR $Usage;
@@ -60,7 +36,7 @@ if (!&getopts('f:Vep', \%opt)) {
     exit 1;
 }
 if (defined $opt{'V'}) {
-    print "$prog: version 0.15\n";
+    print "$prog: version $VERSION\n";
     exit 0;
 }
 my $inFile = defined $opt{'f'} ? $opt{'f'} : undef;
@@ -130,23 +106,25 @@ __END__
 
 =head1 NAME
 
-inifilter - filter a dos/windows C<.ini> file by making substitutions and deletions to keys and entries
+inifilter - filter an C<.ini> file by making substitutions and deletions
+to keys and entries
 
 =head1 SYNOPSYS
 
-B<inifilter> [B<-f> I<inifile>] [B<-V>] I<filter-file> ...
+B<inifilter> [B<-f> I<inifile>] [B<-V>] I<filter-file> B<-e> B<-p>
 
 =head1 DESCRIPTION
 
-B<inifilter> is used to modify a dos/windows ini file (or a ini file
+B<inifilter> is used to modify an ini file (or an ini file
 patch) by applying to it the substitutions and deletions specified
 in one or more I<filter file>s.
-Such filtering is useful when one needs to do
-common transformations (such as changing where the windows system directory is,
-I<etc.>)
+
+Such filtering is useful when one needs to do common transformations
+(such as changing where the windows system directory is, I<etc.>)
 to a number of ini files.
+
 It is also useful for filtering out common ignorable changes
-from a ini diff, so only important changes remain.
+from an ini diff, so only important changes remain.
 
 =head1 Filter File Format
 
@@ -168,13 +146,14 @@ consist of a number of ini key patterns (enclosed in brackets).
 Each key pattern contains lines indicating which entries in matching
 keys are to be modified (entries can be matched based on their name or
 their value).
+
 Finally, actions can be specified for each matching entry: an entry's
 name or value can be changed or it may be deleted entirely.
-Key patterns and entry name or value patterns are specified as case insensitive
-B<perl> regular expressions, while name and value changes are
+Key patterns and entry name or value patterns are specified as case
+insensitive B<perl> regular expressions, while name and value changes are
 specified B<perl> substitution commands.
 
-Comments are indicated by lines beginning with a # character (a # in
+Comments are indicated by lines beginning with a # or ; character (a # in
 the middle of a line does not introduce a comment).
 
 The following example demonstrates the syntax of filter files:
@@ -208,7 +187,8 @@ The following example demonstrates the syntax of filter files:
 
 Some things to note about these files: you need lots of backslashes
 in the key names (since backslash is used as a path separator,
-and since it is special to perl); 
+and since it is special to perl).
+
 The key, name and value patterns are always anchored, so don't
 forget to put an explicit C<.*> in front of or after patterns where you want
 a substring match.
@@ -227,15 +207,45 @@ Read the specified ini file instead of from standard input.
 
 =item B<-V>
 
-Prints the version number - the program then exits
-immediately.
+Prints the version number - the program then exits immediately.
+
+=item B<-e>
+
+Exports the filter results to a text format (debug purposes)
+
+=item B<-p>
+
+Preserves the order of Ordered Field names (such as mod_1, mod_2, etc.)
 
 =back
 
 =head1 SEE ALSO
 
-L<inidiff>, L<iniedit>.
+L<inidiff>, L<iniedit>, L<inicat>.
 
 =head1 AUTHOR
 
-Michael Rendell, Memorial University of Newfoundland (michael@cs.mun.ca).
+=item Michael Rendell, Memorial University of Newfoundland
+ 
+=head1 MAINTAINERS
+ 
+=item Jeremy Squires C<< <j.squires at computer.org> >>
+
+=head1 ACKNOWLEDGEMENTS
+
+Michael Rendell, Memorial University of Newfoundland
+produced the first version of the Regutils package from which
+this package was derived. It is still available from:
+
+    L<https://sourceforge.net/projects/regutils/>
+
+=head1 LICENSE AND COPYRIGHT
+
+This software is Copyright (c) 1998 Memorial University of Newfoundland
+
+This is free software, licensed under:
+
+The GNU General Public License, Version 3, July 2007
+
+See F<LICENSE>
+

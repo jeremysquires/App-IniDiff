@@ -1,27 +1,6 @@
 #!perl
 #
-#    iniedit - edit (or patch) a dos/windows .ini file (regutils package)
-#    Copyright (C) 1998 Memorial University of Newfoundland
-#
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program; if not, write to the Free Software
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-#
-
-#
-# Program to patch a .ini file.
-#
-# (pod at end)
+#    iniedit - edit (or patch) an .ini file
 #
 
 use strict;
@@ -29,7 +8,6 @@ use Getopt::Std;
 use IO::File;
 use IO::Handle;
 
-# BEGIN { push(@INC, 'lib'); }
 use App::IniDiff::IniFile;
 
 my $prog = $0;
@@ -49,7 +27,7 @@ my $Usage = "Usage: $prog [-V] [-o outfile] -i patchfile -f inoutfile
 $Getopt::Std::STANDARD_HELP_VERSION = "true";
 my $VERSION = '0.15';
 sub VERSION_MESSAGE {
-    print "$prog: version 0.15\n";
+    print "$prog: version $VERSION\n";
 }
 sub HELP_MESSAGE {
     print STDERR $Usage;
@@ -61,7 +39,7 @@ if (!getopts('f:i:o:V', \%opt)) {
     exit 1;
 }
 if (defined $opt{'V'}) {
-    print "$prog: version 0.15\n";
+    print "$prog: version $VERSION\n";
     exit 0;
 }
 
@@ -210,7 +188,7 @@ __END__
 
 =head1 NAME
 
-iniedit - edit (or patch) a dos/windows C<.ini> file.
+iniedit - edit (or patch) a C<.ini> file.
 
 =head1 SYNOPSYS
 
@@ -218,9 +196,10 @@ B<iniedit> [B<-V>] B<-f> I<file> B<-i> I<file> [B<-o> I<file>]
 
 =head1 DESCRIPTION
 
-B<iniedit> edits or patches the dos or windows C<.ini> file specified
+B<iniedit> edits or patches the C<.ini> file specified
 by the B<-f> option using the patch in the file indicated by the B<-i>
 option.
+
 If the B<-o> option is used, the result is written the specified file, 
 otherwise the original file is over-written with the result.
 
@@ -251,8 +230,7 @@ written to standard output).
 
 =item B<-V>
 
-Prints the version number - the program then exits
-immediately.
+Prints the version number - the program then exits immediately.
 
 =back
 
@@ -282,7 +260,9 @@ Your typical C<.ini> file looks like this:
     A field=The value
     moreFields="values and ; stuff"
 
-and so on.  In general, C<.ini> files consist of a number of keys, each
+and so on.
+
+In general, C<.ini> files consist of a number of keys, each
 key has a number of fields, and each field has a value.  Key names are
 inclosed in brackets and appear on a line by themselves - they
 may contain pretty much any character except brackets.
@@ -294,16 +274,19 @@ Field names within a key are usually, but not always, unique.
 Double quotes are (somewhat) special in field names and values: they can
 be used to quote characters that would otherwise not be allowed
 (I<e.g.>, equals and semi-colon).
+
 Quotes should be balanced (though I've seen some C<.ini> files with
 a single quote in the value - check your HP printer C<.ini> files).
 
-Blank lines a completely ignored, though they are
+Blank lines are completely ignored, though they are
 typically used to separate keys.
 
 Comments in C<.ini> files begin with a semi-colon and go the the end of
 the line.
+
 Comments may be on lines by themselves or they may appear after a key name
 or after a I<field>C<=>I<value>.
+
 A semi-colon inside the brackets of a key name is not considered a comment.
 
 =head2 Patch File Format
@@ -332,8 +315,31 @@ the last change mentioned wins.
 
 =head1 SEE ALSO
 
-L<inidiff>.
+L<inidiff>, L<inicat>, L<inifilter>.
 
 =head1 AUTHOR
 
-Michael Rendell, Memorial University of Newfoundland (michael@cs.mun.ca).
+=item Michael Rendell, Memorial University of Newfoundland
+ 
+=head1 MAINTAINERS
+ 
+=item Jeremy Squires C<< <j.squires at computer.org> >>
+
+=head1 ACKNOWLEDGEMENTS
+
+Michael Rendell, Memorial University of Newfoundland
+produced the first version of the Regutils package from which
+this package was derived. It is still available from:
+
+    L<https://sourceforge.net/projects/regutils/>
+
+=head1 LICENSE AND COPYRIGHT
+
+This software is Copyright (c) 1998 Memorial University of Newfoundland
+
+This is free software, licensed under:
+
+The GNU General Public License, Version 3, July 2007
+
+See F<LICENSE>
+

@@ -1,45 +1,23 @@
 #!perl
 #
-#    inidiff - generate diffs between two dos .ini files (regutils package)
-#    Copyright (C) 1998 Memorial University of Newfoundland
-#
-#    This program is free software; you can redistribute it and/or modify
-#    it under the terms of the GNU General Public License as published by
-#    the Free Software Foundation; either version 2 of the License, or
-#    (at your option) any later version.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU General Public License for more details.
-#
-#    You should have received a copy of the GNU General Public License
-#    along with this program; if not, write to the Free Software
-#    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
-#
-
-#
-# Program to diff two .ini files
-#
-# (pod at end)
+#    inidiff - generate diffs between two .ini files
 #
 
 use strict;
 use Getopt::Std;
 use IO::File;
 
-# BEGIN { push(@INC, 'lib'); }
 use App::IniDiff::IniFile;
 
 my $prog = $0;
 $prog =~ s:.*\/::;
 
 my $Usage = "Usage: $prog [-q] [-V] [-i] [-M] [-c] file1 file2
-	-q	don't generate comments indicating new/old values
-	-V	Print version number and exit.
-	-i	ignore the case of comparisons.
-	-M	add ^M to output to support old (pre-NT) Windows/DOS systems
-	-c	strip trailing inline comments after semicolon
+    -q	don't generate comments indicating new/old values
+    -V	Print version number and exit.
+    -i	ignore the case of comparisons.
+    -M	add ^M to output to support old (pre-NT) Windows/DOS systems
+    -c	strip trailing inline comments after semicolon
     Compare two .ini files and generate a differences file.
 ";
 
@@ -47,7 +25,7 @@ my $Usage = "Usage: $prog [-q] [-V] [-i] [-M] [-c] file1 file2
 $Getopt::Std::STANDARD_HELP_VERSION = "true";
 my $VERSION = '0.15';
 sub VERSION_MESSAGE {
-    print "$prog: version 0.15\n";
+    print "$prog: version $VERSION\n";
 }
 sub HELP_MESSAGE {
     print STDERR $Usage;
@@ -59,7 +37,7 @@ if (!&getopts('qViMc', \%opt)) {
     exit 1;
 }
 if (defined $opt{'V'}) {
-    print "$prog: version 0.15\n";
+    print "$prog: version $VERSION\n";
     exit 0;
 }
 my $genComments   = defined $opt{'q'} ? 0 : 1;
@@ -206,7 +184,7 @@ __END__
 
 =head1 NAME
 
-inidiff - generate the differences between two dos/windows C<.ini> files
+inidiff - generate the differences between two C<.ini> files
 
 =head1 SYNOPSYS
 
@@ -214,18 +192,22 @@ B<inidiff> B<[-q]> B<[-V]> B<[-i]> file1 file2
 
 =head1 DESCRIPTION
 
-B<inidiff> reads the two specified dos or windows C<.ini> files and prints
+B<inidiff> reads the two specified C<.ini> files and prints
 the differences between the two.
+
 The output is suitable for use with the B<iniedit> program.
 Either of file1 or file2 may be "-", indicating standard input
 should be read.
 
 The output consists of key names in brackets followed by the 
 fields that have been added or changed in that key.
+
 Keys are separated by blank lines.
+
 Deleted keys are indicated by a minus at the end of the line containing
 the key name, while deleted fields are indicated by a minus after the field
 name (there is no equals or value after the field name).
+
 New keys and fields are preceded by comments indicating they are new.
 Changed fields are preceded by comments indicating the previous value
 of the field.
@@ -254,13 +236,20 @@ and previous values of existing and deleted fields.
 
 =item B<-V>
 
-prints the version number - the program then exits
-immediately.
+Prints the version number - the program then exits immediately.
 
 =item B<-i>
 
-ignores case in values for comparison purposes (always does so for 
+Ignores case in values for comparison purposes (always does so for 
 key names anyway).
+
+=item B<-M>
+
+Add ^M to output to support old (pre-NT) Windows/DOS systems.
+
+=item B<-c>
+
+Strip trailing inline comments after semicolon.
 
 =back
 
@@ -272,8 +261,31 @@ This kind of thing doesn't seem too common, so it hasn't been a problem.
 
 =head1 SEE ALSO
 
-L<iniedit>.
+L<inicat>, L<iniedit>, L<inifilter>.
 
 =head1 AUTHOR
 
-Michael Rendell, Memorial University of Newfoundland (michael@cs.mun.ca).
+=item Michael Rendell, Memorial University of Newfoundland
+ 
+=head1 MAINTAINERS
+ 
+=item Jeremy Squires C<< <j.squires at computer.org> >>
+
+=head1 ACKNOWLEDGEMENTS
+
+Michael Rendell, Memorial University of Newfoundland
+produced the first version of the Regutils package from which
+this package was derived. It is still available from:
+
+    L<https://sourceforge.net/projects/regutils/>
+
+=head1 LICENSE AND COPYRIGHT
+
+This software is Copyright (c) 1998 Memorial University of Newfoundland
+
+This is free software, licensed under:
+
+The GNU General Public License, Version 3, July 2007
+
+See F<LICENSE>
+
