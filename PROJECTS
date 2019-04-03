@@ -1,0 +1,12 @@
+Things to do:
+
+IniFile.pm:
+	- write perldocs for the library routines
+    - add unit tests for IniFile.pm
+    - modify to allow use of different INI/IOD parsers
+
+scripts:
+    - add bad data tests
+
+Regutils:
+    - add a script to round trip registry dumps to INI and back

@@ -1,4 +1,4 @@
-# App-IniDiff
+App-IniDiff
 
 App-IniDiff is a package of Perl utilities that compares,
 patches and filters INI files.
@@ -23,7 +23,7 @@ The package contains the following programs:
     inifilter - filter an ini file by making substitutions
 		        and deletions to keys and entries.
 
-## INSTALLATION
+INSTALLATION
 
 To install this module, run the following commands:
 (on Windows, use Strawberry gmake instead of cygwin make)
@@ -41,7 +41,7 @@ Or the newer CPANPLUS.pm module
 
     # perl -MCPANPLUS -e 'install App::IniDiff'
 
-## SUPPORT AND DOCUMENTATION
+SUPPORT AND DOCUMENTATION
 
 After installing, you can find documentation for this module with the
 perldoc command.
@@ -68,7 +68,7 @@ You can also look for information at:
         https://metacpan.org/release/App-IniDiff
 
 
-## LICENSE AND COPYRIGHT
+LICENSE AND COPYRIGHT
 
 This software is Copyright (C) 1998 Memorial University of Newfoundland
 
