@@ -72,7 +72,7 @@ foreach $file (@ARGV) {
     my $ini = new App::IniDiff::IniFile($in);
     $in->close;
     if (!defined $ini) {
-        print STDERR "$prog: $file:${IniFile::errorString}\n";
+        print STDERR "$prog: $file:${App::IniDiff::IniFile::errorString}\n";
         $ok = 0;
         next;
     }
@@ -127,6 +127,11 @@ L<inidiff>, L<iniedit>, L<inifilter>.
 =head1 MAINTAINERS
  
 =item Jeremy Squires C<< <j.squires at computer.org> >>
+
+=head1 BUGS
+
+Sections with an empty line have the empty line removed,
+but it also removes the next empty line between sections.
 
 =head1 ACKNOWLEDGEMENTS
 
