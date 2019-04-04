@@ -17,3 +17,4 @@ pod2htm*.tmp
 pm_to_blib
 App-IniDiff-*
 App-IniDiff-*.tar.gz
+*.html

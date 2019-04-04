@@ -15,9 +15,9 @@ t/01inicat.t
 t/02iniedit.t
 t/03inidiff.t
 t/04inifilter.t
-t/manifest.t
-t/pod.t
 xt/boilerplate.t
+xt/manifest.t
+xt/pod.t
 t/data/add_section_nc.ini
 t/data/add_section_wc.ini
 t/data/add_setting_nc.ini

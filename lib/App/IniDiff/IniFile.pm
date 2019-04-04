@@ -7,11 +7,11 @@ use Carp;
 
 =head1 NAME
 
-App::IniDiff::IniFile - perl module to mess with .ini files
+App::IniDiff::IniFile - perl module to diff and patch .ini files
 
 =head1 VERSION
 
-Version 0.01
+Version 0.16
 
 =cut
 
@@ -20,17 +20,26 @@ $VERSION = '0.16';
 
 =head1 DESCRIPTION
 
-IniFile.pm - perl module to mess with .ini files (regutils package)
+IniFile.pm - perl module to diff and patch .ini files
 
 =head1 SYNOPSIS
 
 This file contains the following:
-    package App::IniDiff::IniFile;
-    package App::IniDiff::IniFile::Field;
-    package App::IniDiff::IniFile::Key;
-    package App::IniDiff::IniFile::Filter;
+
+=over 4
+
+=item * package App::IniDiff::IniFile;
+
+=item * package App::IniDiff::IniFile::Field;
+
+=item * package App::IniDiff::IniFile::Key;
+
+=item * package App::IniDiff::IniFile::Filter;
+
+=back
 
 Creates the following data structure:
+
     {
         'nextOrderId' => some-number,
         'keys' => {
@@ -53,15 +62,29 @@ Creates the following data structure:
         },
     }
 
-'orderId' is used to preserve the order in which keys appear in a file.
-'annotation' is used to decorate inidiff output.
-'deleted' is used when generating, writing, reading, and applying patch files.
+=over 4
+
+=item * 'orderId' is used to preserve the order in which keys appear in a file.
+
+=item * 'annotation' is used to decorate inidiff output.
+
+=item * 'deleted' is used when generating, writing, reading, and applying patch files.
+
+=back
 
 Some terms used differ from what is normally used in WinINI file-speak
-    'key' is WinINI 'section'
-    'field' is WinINI 'entry'
-    'field name' is WinINI 'key'
-    'field value' is WinINI 'value'
+
+=over 4
+
+=item * 'key' is INI 'section'
+
+=item * 'field' is INI 'entry'
+
+=item * 'field name' is INI 'key'
+
+=item * 'field value' is INI 'value'
+
+=back
 
 =cut
 
@@ -940,14 +963,40 @@ sub addKey
 
 }    # End package App::IniDiff::IniFile::Filter
 
+=pod
+
 =head1 AUTHOR
 
-=item Michael Rendell, Memorial University of Newfoundland
- 
+    Michael Rendell, Memorial University of Newfoundland
+
 =head1 MAINTAINERS
  
-=item Jeremy Squires C<< <j.squires at computer.org> >>
- 
+    Jeremy Squires <j.squires at computer.org>
+
+=head1 SOURCE
+
+=over 4
+
+=item * The source for this package is available here:
+
+L<https://github.com/jeremysquires/App-IniDiff>
+
+=back
+
+=head1 ACKNOWLEDGEMENTS
+
+    Michael Rendell, Memorial University of Newfoundland
+    produced the first version of the Regutils package from which
+    this package was derived.
+
+=over 4
+
+=item * It is still available from:
+
+L<https://sourceforge.net/projects/regutils/>
+
+=back
+
 =head1 BUGS
 
 Please report any bugs or feature requests to
@@ -982,14 +1031,6 @@ L<https://cpanratings.perl.org/d/App-IniDiff-IniFile>
 L<https://metacpan.org/release/App-IniDiff-IniFile>
 
 =back
-
-=head1 ACKNOWLEDGEMENTS
-
-Michael Rendell, Memorial University of Newfoundland
-produced the first version of the Regutils package from which
-this package was derived. It is still available from:
-
-    L<https://sourceforge.net/projects/regutils/>
 
 =head1 LICENSE AND COPYRIGHT
 

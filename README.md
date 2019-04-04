@@ -17,11 +17,11 @@ differences between configurations. These may be helpful in debug
 situations or when consistency or differences need to be maintained.
 
 The package contains the following programs:
+
     inicat    - cat ini files to standard output.
     inidiff   - generate the differences between two ini files.
     iniedit   - edit (or patch) a ini file.
-    inifilter - filter an ini file by making substitutions
-		        and deletions to keys and entries.
+    inifilter - filter an ini file by making substitutions and deletions to keys and entries.
 
 ## INSTALLATION
 
@@ -46,7 +46,6 @@ Or the newer CPANPLUS.pm module
 After installing, you can find documentation for this module with the
 perldoc command.
 
-    perldoc App::IniDiff
     perldoc App::IniDiff::IniFile
     perldoc inicat
     perldoc inidiff

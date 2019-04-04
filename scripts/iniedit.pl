@@ -319,19 +319,70 @@ L<inidiff>, L<inicat>, L<inifilter>.
 
 =head1 AUTHOR
 
-=item Michael Rendell, Memorial University of Newfoundland
- 
+    Michael Rendell, Memorial University of Newfoundland
+
 =head1 MAINTAINERS
  
-=item Jeremy Squires C<< <j.squires at computer.org> >>
+    Jeremy Squires <j.squires at computer.org>
+
+=head1 SOURCE
+
+=over 4
+
+=item * The source for this package is available here:
+
+L<https://github.com/jeremysquires/App-IniDiff>
+
+=back
 
 =head1 ACKNOWLEDGEMENTS
 
-Michael Rendell, Memorial University of Newfoundland
-produced the first version of the Regutils package from which
-this package was derived. It is still available from:
+    Michael Rendell, Memorial University of Newfoundland
+    produced the first version of the Regutils package from which
+    this package was derived.
 
-    L<https://sourceforge.net/projects/regutils/>
+=over 4
+
+=item * It is still available from:
+
+L<https://sourceforge.net/projects/regutils/>
+
+=back
+
+=head1 BUGS
+
+Please report any bugs or feature requests to
+C<bug-app-inidiff-inifile at rt.cpan.org>, or through
+the web interface at L<https://rt.cpan.org/NoAuth/ReportBug.html?Queue=App-IniDiff-IniFile>.  I will be notified, and then you'll
+automatically be notified of progress on your bug as I make changes.
+
+=head1 SUPPORT
+
+You can find documentation for this module with the perldoc command.
+
+    perldoc App::IniDiff::IniFile
+
+You can also look for information at:
+
+=over 4
+
+=item * RT: CPAN's request tracker (report bugs here)
+
+L<https://rt.cpan.org/NoAuth/Bugs.html?Dist=App-IniDiff-IniFile>
+
+=item * AnnoCPAN: Annotated CPAN documentation
+
+L<http://annocpan.org/dist/App-IniDiff-IniFile>
+
+=item * CPAN Ratings
+
+L<https://cpanratings.perl.org/d/App-IniDiff-IniFile>
+
+=item * Search CPAN
+
+L<https://metacpan.org/release/App-IniDiff-IniFile>
+
+=back
 
 =head1 LICENSE AND COPYRIGHT
 

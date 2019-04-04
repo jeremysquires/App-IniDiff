@@ -16,18 +16,30 @@ my %WriteMakefileArgs = (
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => '0',
     },
+    BUILD_REQUIRES => {
+        'Test::Pod' => '0',
+    },
     TEST_REQUIRES => {
         'Test::More' => '0',
         'Test2::Bundle::More' => '0',
         'Test::Cmd' => '0',
         'Cwd' => '0',
-        'Test::Pod' => '0',
     },
     PREREQ_PM => {
         'Getopt::Std'       => 0,
         'IO::File'          => 0,
         'IO::Handle'        => 0,
         'Carp'              => 0,
+    },
+    META_MERGE        => {
+        "meta-spec" => { version => 2 },
+        resources => {
+            repository => {
+                type => 'git',
+                url => 'git@github.com:jeremysquires/App-IniDiff.git',
+                web => 'https://github.com/jeremysquires/App-IniDiff',
+            },
+        },
     },
     dist  => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean => { FILES => 'App-IniDiff-IniFile-*' },
