@@ -622,6 +622,7 @@ sub addKey
 
     use strict;
     use Carp;
+    use IO::File;
 
     use vars qw(&new &readConf &filter &export);
     use vars qw($errorString);
@@ -639,19 +640,18 @@ sub addKey
         return $field;
     }
 
-    # This a RegFile::Filter are very (very) similar - keep them that way
     sub readConf
     {
         my ($filter, $file) = @_;
 
-        my ($keyActions)   = undef;
-        my ($entryActions) = undef;
-
-        my $in = new IO::File "$file", "r";
+        my $in = new IO::File $file, "r";
         if (!defined $in) {
             $errorString = "can't open $file - $!";
             return 0;
         }
+
+        my ($keyActions)   = undef;
+        my ($entryActions) = undef;
 
         while (<$in>) {
             next if (/^\s*(#|$)/);
@@ -661,8 +661,8 @@ sub addKey
             s/\s+$//;
 
             # include another filter file?
-            if (/^\s*include\s+"[^"]*"\s*$/) {
-                my ($ifile) = ($1);
+            if (/^\s*include\s+"([^"]*)"\s*$/) {
+                my ($ifile) = $1;
 
                 # End the previous key (with error checking)
                 # added {} around keyActions
@@ -683,12 +683,12 @@ sub addKey
                 # If not an absolute path, try relative to this file first.
                 my ($mypath) = $file;
                 $mypath =~ s:/+[^/]*$::;
-                if (   $ifile !~ /^\//
+                if ($ifile !~ /^\//
                     && $mypath ne ''
                     && $mypath ne $file
-                    && -e "$mypath/$ifile")
+                    && -e $mypath."/".$ifile)
                 {
-                    return 0 if (!$filter->readConf("$mypath/$ifile"));
+                    return 0 if (!$filter->readConf($mypath."/".$ifile));
                 }
                 else {
                     return 0 if (!$filter->readConf($ifile));

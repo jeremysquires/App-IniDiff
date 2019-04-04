@@ -19,6 +19,8 @@ if (!-d $resultsDir) {
 my $archiveDir =  $dir.'/t/archive';
 my $dataDir =  $dir.'/t/data';
 
+# NOTE: putting the args in the prog can cause trouble
+# when -f type args are passed: so keep the args argument separate
 $test->run(
   interpreter => 'perl',
   prog => 'scripts/inicat.pl '.$dataDir.'/sample.ini',

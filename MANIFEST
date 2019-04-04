@@ -12,6 +12,9 @@ scripts/iniedit.pl
 scripts/inifilter.pl
 t/00-load.t
 t/01inicat.t
+t/02iniedit.t
+t/03inidiff.t
+t/04inifilter.t
 t/manifest.t
 t/pod.t
 xt/boilerplate.t
@@ -19,10 +22,12 @@ t/data/add_section_nc.ini
 t/data/add_section_wc.ini
 t/data/add_setting_nc.ini
 t/data/add_setting_wc.ini
+t/data/anotherFilterFile.ini
 t/data/del_section_nc.ini
 t/data/del_section_wc.ini
 t/data/del_setting_nc.ini
 t/data/del_setting_wc.ini
+t/data/filter.ini
 t/data/modify_setting_nc.ini
 t/data/modify_setting_wc.ini
 t/data/quotehandling.ini
@@ -48,4 +53,5 @@ t/archive/result_inidiff_del_setting_nc_test.ini
 t/archive/result_inidiff_del_setting_wc_test.ini
 t/archive/result_inidiff_modify_setting_nc_test.ini
 t/archive/result_inidiff_modify_setting_wc_test.ini
+t/archive/result_filter_test.ini
 t/archive/result_modify_setting_nc.ini

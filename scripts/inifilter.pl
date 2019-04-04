@@ -5,17 +5,21 @@
 
 use strict;
 use Getopt::Std;
+use IO::File;
+use IO::Handle;
 
 use App::IniDiff::IniFile;
 
 my $prog = $0;
 $prog =~ s:.*\/::;
 
-my $Usage = "Usage: $prog [-f file] [-V] [-e] [-p] filter-file [filter-file ...]
+my $Usage = "Usage: $prog [-f file] [-V] [-e] [-p] [-o outfile] filter-file [filter-file ...]
     -f file	Read from file (defaults to stdin)
     -V	Print version number and exit.
     -e  Exports the filter results to a text format (debug purposes)
     -p  Preserves the order of Ordered Field names (such as mod_1, mod_2, etc.)
+    -o  file File to save result to (instead of -f file); \"-\" means write
+        to stdout.
     Reads patterns from filter-file(s), then filters keys matching those
     patterns from the specified ini file or inidiff output.
 ";
@@ -31,10 +35,11 @@ sub HELP_MESSAGE {
 }
 
 my %opt;
-if (!&getopts('f:Vep', \%opt)) {
+if (!&getopts('o:f:Vep', \%opt)) {
     print STDERR $Usage;
     exit 1;
 }
+my $outFile = defined $opt{'o'} ? $opt{'o'} : '-';
 if (defined $opt{'V'}) {
     print "$prog: version $VERSION\n";
     exit 0;
@@ -46,7 +51,7 @@ if (@ARGV == 0) {
     die $Usage;
 }
 
-my $filter = new IniFile::Filter;
+my $filter = new App::IniDiff::IniFile::Filter;
 
 # setPreserveOrderedFields in the filter instance
 if (defined $opt{'p'}) {
@@ -56,7 +61,7 @@ if (defined $opt{'p'}) {
 my $if;
 foreach $if (@ARGV) {
     if (!$filter->readConf($if)) {
-        die "$prog: $IniFile::Filter::errorString\n";
+        die "$prog: $App::IniDiff::IniFile::Filter::errorString\n";
     }
 
     # export the filters to STDOUT
@@ -85,18 +90,27 @@ else {
     }
 }
 
-my $ini = new IniFile($in, 1);
+my $ini = new App::IniDiff::IniFile($in, 1);
 if (!defined $ini) {
-    die "$prog: $IniFile::errorString\n";
+    die "$prog: $App::IniDiff::IniFile::errorString\n";
 }
 
 if (!$filter->filter($ini)) {
-    die "$prog: error filtering key $inFile: $IniFile::Filter::errorString\n";
+    die "$prog: error filtering key $inFile: $App::IniDiff::IniFile::Filter::errorString\n";
 }
 
-my $out = new IO::Handle;
-if (!$out->fdopen('STDOUT', 'w')) {
-    die "$prog: couldn't dup stdout - $!\n";
+my $out;
+if ($outFile eq '-') {
+    $out = new IO::Handle;
+    if (!$out->fdopen("STDOUT", "w")) {
+        die "$prog: can't fdopen STDOUT - $!\n";
+    }
+}
+else {
+    $out = new IO::File $outFile, 'w';
+    if (!defined $out) {
+        die "$prog: couldn't open $outFile for writing - $!\n";
+    }
 }
 $ini->write($out);
 
@@ -162,7 +176,7 @@ The following example demonstrates the syntax of filter files:
     include "anotherFile"
 
     # Check for matching entries in keys starting with 'option'
-    [option*]
+    [option.*]
 	# Change C:\PROGRA~1\ to F:\Program files\ in matching value entries
 	value .*C:\\\\PROGRA~1\\\\.*
 	    subst value s/C:\\\\PROGRA~1\\\\/F:\\\\Program Files\\\\/gi
@@ -182,11 +196,11 @@ The following example demonstrates the syntax of filter files:
     # Change both the name and value of some key
     [foo]
     name something
-	subst name s/X/Y/gi
-	subst value s/A/B/gi
+	    subst name s/X/Y/gi
+	    subst value s/A/B/gi
 
 Some things to note about these files: you need lots of backslashes
-in the key names (since backslash is used as a path separator,
+in windows path key names (since backslash is used as a path separator,
 and since it is special to perl).
 
 The key, name and value patterns are always anchored, so don't
