@@ -6,24 +6,27 @@
 use strict;
 use Getopt::Std;
 use IO::File;
+use IO::Handle;
 
 use App::IniDiff::IniFile;
 
 my $prog = $0;
 $prog =~ s:.*\/::;
 
-my $Usage = "Usage: $prog [-q] [-V] [-i] [-M] [-c] file1 file2
+my $Usage = "Usage: $prog [-q] [-V] [-i] [-M] [-c] [-o outfile] file1 file2
     -q	don't generate comments indicating new/old values
     -V	Print version number and exit.
     -i	ignore the case of comparisons.
     -M	add ^M to output to support old (pre-NT) Windows/DOS systems
     -c	strip trailing inline comments after semicolon
+    -o  file File to save result to (instead of -f file); \"-\" means write
+        to stdout.
     Compare two .ini files and generate a differences file.
 ";
 
 # add support for --help and --version
 $Getopt::Std::STANDARD_HELP_VERSION = "true";
-my $VERSION = '0.15';
+my $VERSION = '0.16';
 sub VERSION_MESSAGE {
     print "$prog: version $VERSION\n";
 }
@@ -32,10 +35,11 @@ sub HELP_MESSAGE {
 }
 
 my %opt;
-if (!&getopts('qViMc', \%opt)) {
+if (!&getopts('o:qViMc', \%opt)) {
     print STDERR $Usage;
     exit 1;
 }
+my $outFile = defined $opt{'o'} ? $opt{'o'} : '-';
 if (defined $opt{'V'}) {
     print "$prog: version $VERSION\n";
     exit 0;
@@ -45,7 +49,7 @@ my $ignoreCase    = defined $opt{'i'} ? 1 : 0;
 my $addM          = defined $opt{'M'} ? 1 : 0;
 my $stripComments = defined $opt{'c'} ? 1 : 0;
 
-if (@ARGV != 2) {
+if (@ARGV < 2) {
     print STDERR "$prog: wrong number of arguments\n";
     die $Usage;
 }
@@ -67,17 +71,17 @@ if (!defined $f2) {
     die "$prog: can't open $file2 - $!\n";
 }
 
-my $f1Ini = new IniFile($f1, 0, $addM, $stripComments);
-die "$prog: $file1:$IniFile::errorString\n" if (!defined $f1Ini);
-my $f2Ini = new IniFile($f2, 0, $addM, $stripComments);
-die "$prog: $file1:$IniFile::errorString\n" if (!defined $f2Ini);
+my $f1Ini = new App::IniDiff::IniFile($f1, 0, $addM, $stripComments);
+die "$prog: $file1:$App::IniDiff::IniFile::errorString\n" if (!defined $f1Ini);
+my $f2Ini = new App::IniDiff::IniFile($f2, 0, $addM, $stripComments);
+die "$prog: $file1:$App::IniDiff::IniFile::errorString\n" if (!defined $f2Ini);
 
 #
 # Generate the diffs...
 #
 
 # using default () would not allow ^M and stripcomments to be passed in
-my $dIni = new IniFile("", 0, $addM, $stripComments);
+my $dIni = new App::IniDiff::IniFile("", 0, $addM, $stripComments);
 
 my %doneKeys = ();
 my $key1;
@@ -103,35 +107,35 @@ foreach $key1 (@{$f1Ini->keys}) {
                       (lc($field1->value) eq lc($field2->value))))
                 {
                     $keyd =
-                      $dIni->addKey(new IniFile::Key($key2->name, 0, undef))
+                      $dIni->addKey(new App::IniDiff::IniFile::Key($key2->name, 0, undef))
                       if !defined $keyd;
 
                     # Changed
                     $keyd->addField(
-                        new IniFile::Field(
+                        new App::IniDiff::IniFile::Field(
                             $field2->name, $field2->value, 0,
                             &comment("Old value: " . $field1->value)));
                 }
             }
             else {
-                $keyd = $dIni->addKey(new IniFile::Key($key2->name, 0, undef))
+                $keyd = $dIni->addKey(new App::IniDiff::IniFile::Key($key2->name, 0, undef))
                   if !defined $keyd;
 
                 # Old - not in new version
                 $keyd->addField(
-                    new IniFile::Field(
+                    new App::IniDiff::IniFile::Field(
                         $field1->name, $field1->value, 1,
                         &comment("Old value: " . $field1->value)));
             }
         }
         foreach $field2 (@{$key2->fields}) {
             if (!exists $doneFields{$field2->name}) {
-                $keyd = $dIni->addKey(new IniFile::Key($key2->name, 0, undef))
+                $keyd = $dIni->addKey(new App::IniDiff::IniFile::Key($key2->name, 0, undef))
                   if !defined $keyd;
 
                 # New addition
                 $keyd->addField(
-                    new IniFile::Field(
+                    new App::IniDiff::IniFile::Field(
                         $field2->name, $field2->value, 0, &comment('New')));
             }
         }
@@ -139,7 +143,7 @@ foreach $key1 (@{$f1Ini->keys}) {
     else {
 
         # Whole key is deleted
-        $dIni->addKey(new IniFile::Key($key1->name, 1, undef));
+        $dIni->addKey(new App::IniDiff::IniFile::Key($key1->name, 1, undef));
     }
 }
 
@@ -150,14 +154,14 @@ foreach $key2 (@{$f2Ini->keys}) {
 
         # New key (and contents)
         my $keyd =
-          $dIni->addKey(new IniFile::Key($key2->name, 0, &comment('New')));
+          $dIni->addKey(new App::IniDiff::IniFile::Key($key2->name, 0, &comment('New')));
 
         # Attempt to the preserve order in the file...
         $keyd->orderId($lastOrderId += 0.000001);
         my $field2;
         foreach $field2 (@{$key2->fields}) {
             $keyd->addField(
-                new IniFile::Field($field2->name, $field2->value, 0, undef));
+                new App::IniDiff::IniFile::Field($field2->name, $field2->value, 0, undef));
         }
     }
     else {
@@ -165,10 +169,20 @@ foreach $key2 (@{$f2Ini->keys}) {
     }
 }
 
-my $out = new IO::Handle;
-if (!$out->fdopen('STDOUT', 'w')) {
-    die "$prog: couldn't fdopen STDOUT - $!\n";
+my $out;
+if ($outFile eq '-') {
+    $out = new IO::Handle;
+    if (!$out->fdopen("STDOUT", "w")) {
+        die "$prog: can't fdopen STDOUT - $!\n";
+    }
 }
+else {
+    $out = new IO::File $outFile, 'w';
+    if (!defined $out) {
+        die "$prog: couldn't open $outFile for writing - $!\n";
+    }
+}
+
 $dIni->write($out);
 if (!$out->close) {
     die "$prog: error writing to STDOUT - $!\n";
@@ -188,7 +202,7 @@ inidiff - generate the differences between two C<.ini> files
 
 =head1 SYNOPSYS
 
-B<inidiff> B<[-q]> B<[-V]> B<[-i]> file1 file2
+B<inidiff> [B<-q>] [B<-V>] [B<-i>] [B<-M>] [B<-c>] [B<-o outfile>] file1 file2
 
 =head1 DESCRIPTION
 
@@ -250,6 +264,10 @@ Add ^M to output to support old (pre-NT) Windows/DOS systems.
 =item B<-c>
 
 Strip trailing inline comments after semicolon.
+
+=item B<-o> I<file>
+
+Allows an output file to be specified. "-" means write to stdout.
 
 =back
 

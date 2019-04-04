@@ -13,8 +13,8 @@ if (!-d $resultsDir) {
   # create
   mkdir $resultsDir;
 } else {
-  # remove files
-  unlink glob $resultsDir."/*.*"
+  # do not remove files :- inidiff.t depends upon them
+  # unlink glob $resultsDir."/*.*"
 }
 my $archiveDir =  $dir.'/t/archive';
 my $dataDir =  $dir.'/t/data';

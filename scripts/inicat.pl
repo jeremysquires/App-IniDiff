@@ -108,7 +108,7 @@ Extraneous white space, however, will be discarded.
 
 =item B<-o> I<file>
 
-Allows an output file to be specified.
+Allows an output file to be specified. "-" means write to stdout.
 
 =item B<-V>
 

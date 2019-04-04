@@ -14,18 +14,18 @@ my $prog = $0;
 $prog =~ s:.*\/::;
 
 my $Usage = "Usage: $prog [-V] [-o outfile] -i patchfile -f inoutfile
-	-f file	File to patch; if -o not given, file is overwritten with
-		new file; \"-\" means read (write) from stdin (stdout).
-	-i file	File containing patches; \"-\" means read from stdin.
-	-o file	File to save result to (instead of -f file); \"-\" means write
-		to stdout.
-	-V	Print version number and exit.
+    -f file	File to patch; if -o not given, file is overwritten with
+            new file; \"-\" means read (write) from stdin (stdout).
+    -i file	File containing patches; \"-\" means read from stdin.
+    -o file	File to save result to (instead of -f file); \"-\" means write
+            to stdout.
+    -V	Print version number and exit.
     Reads .ini file patches and applies them to the specified file.
 ";
 
 # add support for --help and --version
 $Getopt::Std::STANDARD_HELP_VERSION = "true";
-my $VERSION = '0.15';
+my $VERSION = '0.16';
 sub VERSION_MESSAGE {
     print "$prog: version $VERSION\n";
 }
