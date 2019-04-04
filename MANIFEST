@@ -53,5 +53,5 @@ t/archive/result_inidiff_del_setting_nc_test.ini
 t/archive/result_inidiff_del_setting_wc_test.ini
 t/archive/result_inidiff_modify_setting_nc_test.ini
 t/archive/result_inidiff_modify_setting_wc_test.ini
-t/archive/result_filter_test.ini
+t/archive/result_filter_sample.ini
 t/archive/result_modify_setting_nc.ini
