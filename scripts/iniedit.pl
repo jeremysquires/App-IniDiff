@@ -96,11 +96,11 @@ else {
     }
 }
 
-my $fIni = new IniFile($fIn, 0);
-die "$prog: Line", __LINE__, ": $inFile:$IniFile::errorString\n"
+my $fIni = new App::IniDiff::IniFile($fIn, 0);
+die "$prog: Line", __LINE__, ": $inFile:$App::IniDiff::IniFile::errorString\n"
   if (!defined $fIni);
-my $pIni = new IniFile($pIn, 1);
-die "$prog: Line ", __LINE__, ": $patchFile:$IniFile::errorString\n"
+my $pIni = new App::IniDiff::IniFile($pIn, 1);
+die "$prog: Line ", __LINE__, ": $patchFile:$App::IniDiff::IniFile::errorString\n"
   if (!defined $pIni);
 
 # Apply the patch...
@@ -122,7 +122,7 @@ foreach $pKey (@{$pIni->keys}) {
             else {
                 if (!defined $fKey) {
                     $fKey =
-                      $fIni->addKey(new IniFile::Key($pKey->name, 0, undef));
+                      $fIni->addKey(new App::IniDiff::IniFile::Key($pKey->name, 0, undef));
 
                     # Attempt to preserve order of keys in file
                     $fKey->orderId($lastOrderId += 0.0000001);
@@ -130,7 +130,7 @@ foreach $pKey (@{$pIni->keys}) {
 
                 # Replaces existing field if there is one...
                 $fKey->addField(
-                    new IniFile::Field($field->name, $field->value, 0, undef));
+                    new App::IniDiff::IniFile::Field($field->name, $field->value, 0, undef));
             }
         }
     }
