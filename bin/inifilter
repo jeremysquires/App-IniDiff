@@ -26,7 +26,7 @@ my $Usage = "Usage: $prog [-f file] [-V] [-e] [-p] [-o outfile] filter-file [fil
 
 # add support for --help and --version
 $Getopt::Std::STANDARD_HELP_VERSION = "true";
-my $VERSION = '0.16';
+my $VERSION = '0.17';
 sub VERSION_MESSAGE {
     print "$prog: version $VERSION\n";
 }

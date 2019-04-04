@@ -4,7 +4,7 @@ use warnings;
 use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
-    NAME             => 'App::IniDiff',
+    NAME             => 'App::IniDiff::IniFile',
     AUTHOR           => [
       q{Michael Rendell, Memorial University of Newfoundland},
       q{Jeremy Squires <j.squires@computer.org> (Current Maintainer)},
@@ -24,6 +24,7 @@ my %WriteMakefileArgs = (
         'Test2::Bundle::More' => '0',
         'Test::Cmd' => '0',
         'Cwd' => '0',
+        'File::Temp' => '0',
     },
     PREREQ_PM => {
         'Getopt::Std'       => 0,

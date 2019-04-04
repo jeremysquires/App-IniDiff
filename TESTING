@@ -32,12 +32,12 @@ Using Test::Cmd
 
 Testing Pod
 
-  prove -I lib t/pod.t
+  prove -I lib xt/pod.t
   cpanm App::Pod2CpanHtml
-  cd scripts
-  pod2cpanhtml inicat.pl > inicat.html
-  pod2cpanhtml inidiff.pl > inidiff.html
-  pod2cpanhtml iniedit.pl > iniedit.html
-  pod2cpanhtml inifilter.pl > inifilter.html
+  pod2cpanhtml scripts/inicat.pl > inicat.html
+  pod2cpanhtml scripts/inidiff.pl > inidiff.html
+  pod2cpanhtml scripts/iniedit.pl > iniedit.html
+  pod2cpanhtml scripts/inifilter.pl > inifilter.html
+  pod2cpanhtml lib/App/IniDiff/IniFile.pm > IniFile.html
   Open these files in a browser and check them
 

@@ -6,10 +6,10 @@ MANIFEST			This list of files
 PROJECTS
 README
 TESTING
-scripts/inicat.pl
-scripts/inidiff.pl
-scripts/iniedit.pl
-scripts/inifilter.pl
+bin/inicat
+bin/inidiff
+bin/iniedit
+bin/inifilter
 t/00-load.t
 t/01inicat.t
 t/02iniedit.t
