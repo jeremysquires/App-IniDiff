@@ -13,6 +13,12 @@ my %WriteMakefileArgs = (
     ABSTRACT         => 'App::IniDiff, scripts to diff and patch INI files',
     LICENSE          => 'gpl_3',
     MIN_PERL_VERSION => '5.006',
+    EXE_FILES => [ 
+      'bin/inicat',
+      'bin/inidiff',
+      'bin/iniedit',
+      'bin/inifilter',
+    ],
     CONFIGURE_REQUIRES => {
         'ExtUtils::MakeMaker' => '0',
     },

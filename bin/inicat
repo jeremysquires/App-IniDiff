@@ -22,7 +22,7 @@ my $Usage = "Usage: $prog [-V] [-o outfile] [file ...]
 
 # add support for --help and --version
 $Getopt::Std::STANDARD_HELP_VERSION = "true";
-my $VERSION = '0.17';
+my $VERSION = '0.18';
 sub VERSION_MESSAGE {
     print "$prog: version $VERSION\n";
 }

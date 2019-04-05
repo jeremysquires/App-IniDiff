@@ -11,12 +11,12 @@ App::IniDiff::IniFile - perl module to diff and patch .ini files
 
 =head1 VERSION
 
-Version 0.17
+Version 0.18
 
 =cut
 
 use vars qw($VERSION);
-$VERSION = '0.17';
+$VERSION = '0.18';
 
 =head1 DESCRIPTION
 
