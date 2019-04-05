@@ -8,7 +8,9 @@ plan tests => 5;
 my $dir = getcwd;
 
 my $test = Test::Cmd->new();
-
+ 
+$test->workdir('');
+ 
 sub removeLineEndings {
   my $line = shift;
   $line =~ tr/\n\r//d;
@@ -35,7 +37,7 @@ $test->run(
   interpreter => 'perl',
   prog => 'bin/inicat',
   args => $dataDir.'/sample.ini',
-  # verbose => 1,
+  verbose => 1,
 );
 # grab stdout before anything else happens
 my $stdoutStr = $test->stdout;

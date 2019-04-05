@@ -9,6 +9,8 @@ my $dir = getcwd;
 
 my $test = Test::Cmd->new();
 
+$test->workdir('');
+
 sub removeLineEndings {
   my $line = shift;
   $line =~ tr/\n\r//d;
