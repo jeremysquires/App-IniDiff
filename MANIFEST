@@ -11,10 +11,10 @@ bin/inidiff
 bin/iniedit
 bin/inifilter
 t/00-load.t
-t/01inicat.t
-t/02iniedit.t
-t/03inidiff.t
-t/04inifilter.t
+t/01-inicat.t
+t/02-iniedit.t
+t/03-inidiff.t
+t/04-inifilter.t
 xt/boilerplate.t
 xt/pod.t
 t/data/add_section_nc.ini
